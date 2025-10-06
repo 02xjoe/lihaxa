@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lihaxa-main: #3697D1;
+  --color-lihaxa-green: #4CAF50;
+  --color-lihaxa-darkteal: #2F4F4F;
+  --color-lihaxa-white: #FFFFFF;
+}

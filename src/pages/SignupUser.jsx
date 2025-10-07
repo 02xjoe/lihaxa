@@ -1,18 +1,145 @@
+// ===============================
+// 📄 SignupUser.jsx
+// ===============================
+
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
+import { useState } from "react";
+
 const SignupUser = () => {
+  // =========================================
+  // 🔧 FORM STATE MANAGEMENT
+  // =========================================
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    ageBracket: "",
+    healthcareProblem: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("🎉 You're on the waitlist! We’ll notify you once we’re live.");
+  };
+
   return (
-    <section className="py-12 px-6 flex justify-center">
-      <form className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 space-y-4">
-        <h2 className="text-2xl font-semibold text-center text-[--color-lihaxa-main]">
-          User Sign Up
-        </h2>
-        <input type="text" placeholder="Full Name" className="border rounded w-full p-2" />
-        <input type="email" placeholder="Email Address" className="border rounded w-full p-2" />
-        <input type="tel" placeholder="Phone Number" className="border rounded w-full p-2" />
-        <button className="w-full bg-[--color-lihaxa-green] text-white py-2 rounded hover:opacity-90 transition">
-          Sign Up
-        </button>
-      </form>
-    </section>
+    <main className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0F172A] via-[#001E3C] to-[#0080FF] text-white px-6 pt-28 pb-16 font-sans">
+      {/* =============================== 🌟 HEADER =============================== */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="text-center mb-10"
+      >
+        <h1 className="text-4xl md:text-5xl font-bold mb-3">
+          Join as Patient
+        </h1>
+        <p className="text-gray-300 max-w-md mx-auto text-lg">
+          Get on the waitlist for instant medical consultations.
+        </p>
+      </motion.div>
+
+      {/* =============================== 🧊 SIGNUP CARD =============================== */}
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl space-y-6"
+      >
+        {/* Full Name */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Full Name <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="John Doe"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+          <p className="text-sm text-gray-400 mt-1">
+            Name must be at least 2 characters.
+          </p>
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Email <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="john@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Age Bracket */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Age Bracket <span className="text-red-400">*</span>
+          </label>
+          <select
+            name="ageBracket"
+            value={formData.ageBracket}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          >
+            <option value="" disabled>
+              Select your age range
+            </option>
+            <option value="18-25">18 - 25</option>
+            <option value="26-35">26 - 35</option>
+            <option value="36-45">36 - 45</option>
+            <option value="46-60">46 - 60</option>
+            <option value="60+">60+</option>
+          </select>
+        </div>
+
+        {/* Healthcare Problem */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            What’s your most pressing healthcare problem?{" "}
+            <span className="text-red-400">*</span>
+          </label>
+          <textarea
+            name="healthcareProblem"
+            placeholder="Describe the healthcare challenge you’re facing..."
+            value={formData.healthcareProblem}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF] h-28"
+          ></textarea>
+        </div>
+
+        {/* Submit Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type="submit"
+          className="w-full bg-[#0080FF] hover:bg-[#3697FF] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
+        >
+          Join Waitlist
+        </motion.button>
+      </motion.form>
+
+      {/* =============================== ✨ FOOTER SPACING =============================== */}
+      <div className="mt-16"></div>
+    </main>
   );
 };
 

@@ -20,7 +20,7 @@ export default function Navbar() {
           <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-3">
               <Link to="/" className="flex items-center space-x-2">
                   <img
-                      src="src/components/lihp.png"
+                      src="src/components/lihaxa1.png"
                       alt="Lihaxa Logo"
                       className="h-12 w-auto opacity-100 select-none pointer-events-none"
                   />

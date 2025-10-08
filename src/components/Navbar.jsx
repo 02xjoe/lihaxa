@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // professional icon set
+import logo from "./lihaxa1.png";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -39,7 +40,7 @@ const Navbar = () => {
         {/* =============================== LOGO =============================== */}
         <div className="flex items-center gap-2">
           <img
-            src={"src/components/lihaxa1.png"}
+            src={logo}
             alt="Lihaxa Logo"
             className="h-9 w-auto rounded-lg bg-white p-1 shadow-sm"
           />

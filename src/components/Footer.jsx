@@ -32,7 +32,7 @@ const Footer = () => {
           <h4 className="text-white font-semibold mb-3">Connect</h4>
           <ul className="space-y-2">
             <li><a href="mailto:support@lihaxa.com" className="hover:text-[#28BD66] transition">hello@lihaxa.com</a></li>
-            <li><a href="https://x.com/lihaxa" target="_blank" className="hover:text-[#28BD66] transition">Twitter</a></li>
+            <li><a href="https://x.com/mylihaxa" target="_blank" className="hover:text-[#28BD66] transition">Twitter</a></li>
             <li><a href="https://www.linkedin.com/company/lihaxa/" className="hover:text-[#28BD66] transition">LinkedIn</a></li>
           </ul>
         </div>

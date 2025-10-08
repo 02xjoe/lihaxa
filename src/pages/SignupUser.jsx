@@ -44,7 +44,7 @@ const SignupUser = () => {
         </p>
       </motion.div>
 
-      {/* =============================== 🧊 SIGNUP CARD =============================== */}
+      {/* ====== SIGNUP CARD ========= */}
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, scale: 0.95 }}
@@ -99,14 +99,14 @@ const SignupUser = () => {
             required
             className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
           >
-            <option value="" disabled>
+            <option  value="" disabled>
               Select your age range
             </option>
-            <option value="18-25">18 - 25</option>
-            <option value="26-35">26 - 35</option>
-            <option value="36-45">36 - 45</option>
-            <option value="46-60">46 - 60</option>
-            <option value="60+">60+</option>
+            <option className="bg-white/5 text-black" value="18-25">18 - 25</option>
+            <option className="bg-white/5 text-black" value="26-35">26 - 35</option>
+            <option className="bg-white/5 text-black" value="36-45">36 - 45</option>
+            <option className="bg-white/5 text-black" value="46-60">46 - 60</option>
+            <option className="bg-white/5 text-black" value="60+">60+</option>
           </select>
         </div>
 
@@ -131,7 +131,7 @@ const SignupUser = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full bg-[#0080FF] hover:bg-[#3697FF] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
+          className="w-full  bg-[#28BD66] hover:bg-[#2ECC71] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
         >
           Join Waitlist
         </motion.button>

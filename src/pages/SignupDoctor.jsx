@@ -1,105 +1,185 @@
-// ===============================
-// 📄 SignupDoctor.jsx
-// ===============================
-
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const SignupDoctor = () => {
+  // =========================================
+  // 🩺 FORM STATE MANAGEMENT
+  // =========================================
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    university: "",
+    specialization: "",
+    experience: "",
+    licensed: false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.licensed) {
+      alert("⚠️ Please confirm that you are a licensed medical practitioner.");
+      return;
+    }
+    alert("✅ Application submitted successfully! Verification in progress.");
+  };
+
   return (
-    <main className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0A0F1C] via-[#08111E] to-[#060B16] text-white overflow-hidden px-6">
-      {/* SEO Meta */}
-      <Helmet>
-        <title>Join as Doctor | Lihaxa</title>
-        <meta
-          name="description"
-          content="Sign up as a verified Lihaxa doctor. Connect with patients, set your hours, and earn securely through your digital wallet."
-        />
-      </Helmet>
-
-      {/* Decorative glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,128,255,0.12),transparent_70%)]"></div>
-
-      {/* Form Card */}
+    <main className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0F172A] via-[#001E3C] to-[#0080FF] text-white px-6 pt-28 pb-16 font-sans">
+      {/* ===============================  HEADER =============================== */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 max-w-lg w-full bg-white/10 backdrop-blur-2xl p-10 rounded-3xl shadow-2xl border border-white/10"
+        transition={{ duration: 0.7 }}
+        className="text-center mb-10"
       >
-        <h2 className="text-3xl font-bold mb-4 text-center">Join as Doctor</h2>
-        <p className="text-gray-300 text-center mb-8">
-          Connect with patients and practice medicine on your terms.
+        <h1 className="text-4xl md:text-5xl font-bold mb-3">Join as Doctor</h1>
+        <p className="text-gray-300 max-w-md mx-auto text-lg">
+          Fill in your details to start the verification process.
         </p>
-
-        <form className="space-y-5">
-          {/* Name */}
-          <div>
-            <label className="block text-sm mb-2 text-gray-300">Full Name</label>
-            <input
-              type="text"
-              placeholder="Dr. John Doe"
-              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm mb-2 text-gray-300">Email</label>
-            <input
-              type="email"
-              placeholder="doctor@example.com"
-              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#28BD66]"
-            />
-          </div>
-
-          {/* Specialization */}
-          <div>
-            <label className="block text-sm mb-2 text-gray-300">Specialization</label>
-            <input
-              type="text"
-              placeholder="e.g. General Practitioner"
-              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
-            />
-          </div>
-
-          {/* License / ID */}
-          <div>
-            <label className="block text-sm mb-2 text-gray-300">License Number</label>
-            <input
-              type="text"
-              placeholder="Medical License ID"
-              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#28BD66]"
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-sm mb-2 text-gray-300">Password</label>
-            <input
-              type="password"
-              placeholder="Create a secure password"
-              className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
-            />
-          </div>
-
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full py-3 mt-4 rounded-lg bg-[#28BD66] font-semibold hover:bg-[#22A35B] transition shadow-lg hover:shadow-green-500/30"
-          >
-            Sign Up
-          </button>
-
-          <p className="text-sm text-gray-400 text-center mt-4">
-            Already have an account?{" "}
-            <Link to="/login" className="text-[#0080FF] hover:underline">
-              Log in
-            </Link>
-          </p>
-        </form>
       </motion.div>
+
+      {/* ===============================  SIGNUP CARD =============================== */}
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="w-full max-w-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl space-y-6"
+      >
+        {/* Full Name */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Full Name <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Dr. John Doe"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Email <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="email"
+            name="email"
+            placeholder="doctor@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Phone Number */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Phone Number <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="+1234567890"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* University of Study */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            University of Study <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            name="university"
+            placeholder="Harvard Medical School"
+            value={formData.university}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Specialization */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Specialization <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="text"
+            name="specialization"
+            placeholder="General Practice, Cardiology, etc."
+            value={formData.specialization}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Years of Experience */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">
+            Years of Experience <span className="text-red-400">*</span>
+          </label>
+          <input
+            type="number"
+            name="experience"
+            placeholder="5"
+            value={formData.experience}
+            onChange={handleChange}
+            required
+            min="0"
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
+          />
+        </div>
+
+        {/* Licensed Checkbox */}
+        <div className="flex items-start gap-3 mt-4">
+          <input
+            type="checkbox"
+            name="licensed"
+            checked={formData.licensed}
+            onChange={handleChange}
+            className="mt-1 h-5 w-5 accent-[#0080FF] rounded-md cursor-pointer"
+          />
+          <label className="text-sm text-gray-300">
+            I am a licensed medical practitioner and I agree to provide
+            accurate information for verification purposes.
+          </label>
+        </div>
+
+        {/* Submit Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type="submit"
+          className="w-full bg-[#0080FF] hover:bg-[#3697FF] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300 mt-4"
+        >
+          Submit Application
+        </motion.button>
+      </motion.form>
+
+      {/* ============== FOOTER SPACING ========= */}
+      <div className="mt-16"></div>
     </main>
   );
 };

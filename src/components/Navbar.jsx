@@ -1,82 +1,68 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom"; // make sure your logo path is correct
 
-export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
+  // Detect scroll
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Detect route (dark pages)
+  const isDarkPage =
+    location.pathname.includes("signup-doctor") ||
+    location.pathname.includes("signup-user");
+
   return (
-      <nav
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        scrolled || isDarkPage
+          ? "backdrop-blur-md bg-[#0F172A]/90 border-b border-white/10 shadow-md"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        {/* =============================== LOGO =============================== */}
+        <div className="flex items-center gap-2">
+          <img
+            src={"src/components/lihaxa1.png"}
+            alt="Lihaxa Logo"
+            className="h-9 w-auto rounded-lg bg-white/10 p-1 backdrop-blur-sm"
+          />
+          <span className="text-xl font-bold text-white tracking-wide">
+            Lihaxa
+          </span>
+        </div>
 
-        
-          className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white" : "bg-transparent"
-              }`}
-      >
-          <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-3">
-              <Link to="/" className="flex items-center space-x-2">
-                  <img
-                      src="src/components/lihaxa1.png"
-                      alt="Lihaxa Logo"
-                      className="h-12 w-auto opacity-100 select-none pointer-events-none"
-                  />
-                    <span className="font-bold text-xl text-[#3697D1]">Lihaxa</span>
-        
-              </Link>
- 
-
-
-        <div className="space-x-6 hidden md:flex">
-          <Link to="/" className="hover:text-[#3697D1] font-medium">
+        {/* =============================== NAV LINKS =============================== */}
+        <div className="flex gap-6 text-sm md:text-base font-medium">
+          <Link
+            to="/"
+            className="text-gray-200 hover:text-white transition-colors duration-300"
+          >
             Home
           </Link>
-          <Link to="/signup-user" className="hover:text-[#3697D1] font-medium">
+          <Link
+            to="/signup-user"
+            className="text-gray-200 hover:text-white transition-colors duration-300"
+          >
             Patients
           </Link>
-          <Link to="/signup-doctor" className="hover:text-[#3697D1] font-medium">
+          <Link
+            to="/signup-doctor"
+            className="text-gray-200 hover:text-gray-400 transition-colors duration-300"
+          >
             Doctors
           </Link>
         </div>
       </div>
     </nav>
   );
-} /*
-
-
-import { Link } from "react-router-dom";
-
-const Navbar = () => {
-    return (
-        <nav className="flex items-center justify-between p-6 py-4 bg-[--color-lihaxa-main] text-blue-600 font-bold shadow-md">
-            <div className="flex items-center space-x-3">
-                <img src="/src/components/liha.png" alt="Lihaxa Logo" className="h-10 w-10 rounded-full" />          
-                <span className="font-bold text-xl">Lihaxa</span>
-            </div>
-
-            <div className="space-x-4">
-                <Link to="/" className="hover:underline ">Home</Link>
-                <Link to="/about" className="hover:underline">About</Link>
-                <Link
-                    to="/signup-user"
-                    className="bg-[--color-lihaxa-green] px-3 py-1 rounded hover:opacity-90 transition"
-                >
-                    User Signup
-                </Link>
-                <Link
-                    to="/signup-doctor"
-                    className="bg-[--color-lihaxa-darkteal] px-3 py-1 rounded hover:opacity-90 transition"
-                >
-                    Doctor Signup
-                </Link>
-            </div>
-        </nav>
-    );
 };
 
 export default Navbar;
-*/
 

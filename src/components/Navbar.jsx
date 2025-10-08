@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom"; // make sure your logo path is correct
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react"; // professional icon set
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
   // Detect scroll
@@ -12,17 +14,25 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Detect route (dark pages)
+  // Detect dark pages
   const isDarkPage =
     location.pathname.includes("signup-doctor") ||
     location.pathname.includes("signup-user");
+
+  // Determine if background should be white (only Home before scroll)
+  const isWhiteBg = !isDarkPage && !scrolled;
+
+  // Handle closing menu when route changes
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
         scrolled || isDarkPage
           ? "backdrop-blur-md bg-[#0F172A]/90 border-b border-white/10 shadow-md"
-          : "bg-transparent"
+          : "bg-white"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -31,38 +41,92 @@ const Navbar = () => {
           <img
             src={"src/components/lihaxa1.png"}
             alt="Lihaxa Logo"
-            className="h-9 w-auto rounded-lg bg-white/10 p-1 backdrop-blur-sm"
+            className="h-9 w-auto rounded-lg bg-white p-1 shadow-sm"
           />
-          <span className="text-xl font-bold text-white tracking-wide">
+          <span
+            className={`text-xl font-bold tracking-wide transition-colors duration-500 ${
+              isWhiteBg ? "text-[#0080FF]" : "text-white"
+            }`}
+          >
             Lihaxa
           </span>
         </div>
 
-        {/* =============================== NAV LINKS =============================== */}
-        <div className="flex gap-6 text-sm md:text-base font-medium">
-          <Link
-            to="/"
-            className="text-gray-200 hover:text-white transition-colors duration-300"
+        {/* =============================== DESKTOP NAV LINKS =============================== */}
+        <div className="hidden md:flex gap-6 text-sm md:text-base font-medium">
+          {["Home", "Patients", "Doctors"].map((item) => {
+            const path =
+              item === "Home"
+                ? "/"
+                : item === "Patients"
+                ? "/signup-user"
+                : "/signup-doctor";
+
+            return (
+              <Link
+                key={item}
+                to={path}
+                className={`transition-colors duration-300 ${
+                  isWhiteBg
+                    ? "text-[#0080FF] hover:text-[#005FCC]"
+                    : "text-gray-200 hover:text-white"
+                }`}
+              >
+                {item}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* =============================== MOBILE MENU ICON =============================== */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            className={`transition-colors duration-300 ${
+              isWhiteBg ? "text-[#0080FF]" : "text-white"
+            }`}
           >
-            Home
-          </Link>
-          <Link
-            to="/signup-user"
-            className="text-gray-200 hover:text-white transition-colors duration-300"
-          >
-            Patients
-          </Link>
-          <Link
-            to="/signup-doctor"
-            className="text-gray-200 hover:text-gray-400 transition-colors duration-300"
-          >
-            Doctors
-          </Link>
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
         </div>
       </div>
+
+      {/* =============================== MOBILE MENU (Slide-down) =============================== */}
+      {menuOpen && (
+        <div
+          className={`md:hidden flex flex-col items-center gap-4 py-6 transition-all duration-500 ${
+            isWhiteBg
+              ? "bg-white border-t border-gray-200"
+              : "bg-[#0F172A]/95 border-t border-white/10"
+          }`}
+        >
+          {["Home", "Patients", "Doctors"].map((item) => {
+            const path =
+              item === "Home"
+                ? "/"
+                : item === "Patients"
+                ? "/signup-user"
+                : "/signup-doctor";
+
+            return (
+              <Link
+                key={item}
+                to={path}
+                className={`text-lg font-medium transition-colors duration-300 ${
+                  isWhiteBg
+                    ? "text-[#0080FF] hover:text-[#005FCC]"
+                    : "text-gray-200 hover:text-white"
+                }`}
+              >
+                {item}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 };
 
 export default Navbar;
-

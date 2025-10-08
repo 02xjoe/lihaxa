@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import SignupUser from "./pages/SignupUser";
 import SignupDoctor from "./pages/SignupDoctor";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 import { HelmetProvider } from "react-helmet-async";
@@ -13,7 +14,7 @@ const App = () => {
   return ( 
     <HelmetProvider>
     <Router>
-
+      <ScrollToTop /> {/* 👈 Always scrolls to top on route change */}
       <div className="min-h-screen flex flex-col bg-[--color-lihaxa-white] text-[--color-lihaxa-darkteal]">
         <Navbar />
         <main className="flex-grow overflow-y-auto">

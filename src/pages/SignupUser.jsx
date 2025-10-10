@@ -6,6 +6,21 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
+// ========================================= react form linked to backend =========================================
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = {name, email, ageBracket, healthcareProblem };
+
+  const res = await fetch('http://localhost:5000/api/patient-signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  });
+  const data = await res.json();
+  if (data.success) alert(' You\'re on the waitlist! We’ll notify you once we’re live.');
+  else alert('Error submitting form. Please try again.');
+};
+// =========================================end========================================
 
 const SignupUser = () => {
   // =========================================

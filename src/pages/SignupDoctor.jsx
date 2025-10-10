@@ -1,6 +1,24 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 
+
+// ========================================= react form linked to backend =========================================
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = {name, email, phone, university, specialization, experience, licensed };
+
+  const res = await fetch('http://localhost:5000/api/doctor-signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  });
+  const data = await res.json();
+  if (data.success) alert('✅ Application submitted successfully! ');
+  else alert('Error submitting form. Please try again.');
+};
+// =========================================end========================================
+
+
 const SignupDoctor = () => {
   // =========================================
   // 🩺 FORM STATE MANAGEMENT

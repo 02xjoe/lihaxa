@@ -2,6 +2,11 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+  // Models
+import Patient from "./models/Patient.js";
+import Doctor from "./models/Doctor.js";
+
+
 
 dotenv.config();
 
@@ -14,10 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.error("MongoDB connection error:", err));
 
-    // Models
-    import Patient from "./models/Patient.js";
-    import Doctor from "./models/Doctor.js";
-
+  
    // Routes
 
     app.post("/api/patient-signup", async (req, res) => {

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-const result = await sendMailToUserAndCompany(formData);
 
 const patientSchema = new mongoose.Schema({
     fullName: { type: String, required: true },

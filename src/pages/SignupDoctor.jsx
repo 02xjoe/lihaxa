@@ -44,10 +44,24 @@ const SignupDoctor = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.licensed) {
-      alert("⚠️ Please confirm that you are a licensed medical practitioner.");
-      return;
+       Swal.fire({
+           title: "❌ Application not submitted!",
+           text: "Confirm that you are a licensed medical practitioner.",
+           icon: "error",
+           confirmButtonText: "Close",
+           confirmButtonColor: "#da0c0cff"
+         });
+   //   alert("⚠️ Please confirm that you are a licensed medical practitioner.");
+   //   return;
     }
-    alert("✅ Application submitted successfully! Verification in progress.");
+       Swal.fire({
+           title: "😊 Your application is successful!",
+           text: "We’ll notify you via email once we’re live.",
+           icon: "success",
+           confirmButtonText: "Awesome!",
+           confirmButtonColor: "#2563EB" // Tailwind blue-600
+         });
+   // alert("✅ Application submitted successfully! Verification in progress.");
   };
 
   return (

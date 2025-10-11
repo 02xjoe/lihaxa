@@ -4,12 +4,13 @@
 
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { useState } from "react";
 // ========================================= react form linked to backend =========================================
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const formData = {name, email, ageBracket, healthcareProblem };
+  const formData = {fullName, email, ageBracket, healthcareProblem };
 
   const res = await fetch('http://localhost:5000/api/patient-signup', {
     method: 'POST',
@@ -39,7 +40,15 @@ const SignupUser = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("🎉 You're on the waitlist! We’ll notify you once we’re live.");
+
+      Swal.fire({
+    title: "😊 You're on the waitlist!",
+    text: "We’ll notify you via email once we’re live.",
+    icon: "success",
+    confirmButtonText: "Awesome!",
+    confirmButtonColor: "#2563EB" // Tailwind blue-600
+  });
+  //  alert("🎉 You're on the waitlist! We’ll notify you via email once we’re live.");
   };
 
   return (

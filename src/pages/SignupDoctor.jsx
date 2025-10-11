@@ -52,7 +52,7 @@ const SignupDoctor = () => {
            confirmButtonColor: "#da0c0cff"
          });
    //   alert("⚠️ Please confirm that you are a licensed medical practitioner.");
-   //   return;
+      return;
     }
        Swal.fire({
            title: "😊 Your application is successful!",

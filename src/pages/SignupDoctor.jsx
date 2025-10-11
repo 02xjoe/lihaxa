@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-
+import Swal from "sweetalert2";
 
 // ========================================= react form linked to backend =========================================
 const handleSubmit = async (e) => {

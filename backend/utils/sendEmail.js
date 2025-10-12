@@ -3,12 +3,12 @@ import nodemailer from "nodemailer";
 
 
 
-console.log("📧 Using SMTP:", {
-  host: process.env.SMTP_HOST,
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS ? "✅ loaded" : "❌ missing",
-  company: process.env.COMPANY_EMAIL
-});
+//console.log("📧 Using SMTP:", {
+//  host: process.env.SMTP_HOST,
+//  user: process.env.EMAIL_USER,
+//  pass: process.env.EMAIL_PASS ? "✅ loaded" : "❌ missing",
+//  company: process.env.COMPANY_EMAIL
+//});
 
 //  Create transporter (connect to Zoho SMTP)
 const createTransporter = () => {

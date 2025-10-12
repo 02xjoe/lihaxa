@@ -16,7 +16,6 @@ import { sendCompanyAndUserEmails } from "../utils/sendEmail.js";
 //Try sending emails
   //     ↓
 
-console.log("📥 New patient form received:", req.body);
 
 const router = express.Router();
 

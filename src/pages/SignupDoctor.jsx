@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 // ========================================= react form linked to backend =========================================
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const formData = {name, email, phone, university, specialization, experience, licensed };
+  const formData = {fullName, email, phone, university, specialization, experience, licensed };
 
   const res = await fetch('http://localhost:5000/api/doctor-signup', {
     method: 'POST',

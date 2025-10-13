@@ -12,6 +12,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   const formData = {fullName, email, ageBracket, healthcareProblem };
 
+  
   const res = await fetch('http://localhost:5000/api/patient-signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

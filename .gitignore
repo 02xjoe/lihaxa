@@ -26,3 +26,5 @@ dist-ssr
 .env.local
 backend/.env
 frontend/.env
+# Local Netlify folder
+.netlify

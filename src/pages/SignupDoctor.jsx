@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { GalleryThumbnailsIcon } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 

@@ -6,17 +6,29 @@ import Swal from "sweetalert2";
 // ========================================= react form linked to backend =========================================
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const formData = {fullName, email, phone, university, specialization, experience, licensed };
 
-  const res = await fetch('https://lihaxa-backend.onrender.com/api/doctors', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
-  });
-  const data = await res.json();
-  if (data.success) alert('✅ Application submitted successfully! ');
-  else alert('Error submitting form. Please try again.');
+  const formData = { fullName, email, phone, university, specialization, experience, licensed };
+
+  try {
+    const res = await fetch('https://lihaxa-backend.onrender.com/api/doctors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('✅ Application submitted successfully!');
+    } else {
+      alert(data.message || 'Error submitting form. Please try again.');
+    }
+  } catch (error) {
+    alert('Network error. Please check your connection.');
+  }
 };
+
+
 // =========================================end========================================
 
 

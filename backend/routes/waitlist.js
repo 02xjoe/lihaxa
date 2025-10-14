@@ -2,7 +2,7 @@
 import express from "express";
 import Patient from "../models/Patient.js";
 import Doctor from "../models/Doctor.js";
-import { sendCompanyAndUserEmails } from "../utils/sendEmail.js";
+import { sendCompanyAndUserEmails } from "../sendEmail.js";
 
 
 //User submits patient form

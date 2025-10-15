@@ -1,0 +1,6 @@
+[build]
+  environment = { VITE_API_URL = "https://lihaxa-backend.onrender.com" }
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

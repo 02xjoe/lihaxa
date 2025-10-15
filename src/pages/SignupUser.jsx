@@ -33,8 +33,8 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   const formData = { fullName, email, ageBracket, healthcareProblem };
 
-  // Use environment variable for API URL
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Fallback for local dev
+  // Use VITE_ prefix for Vite
+  const API_BASE_URL = process.env.VITE_API_URL || 'http://localhost:5000'; // Backend local port
 
   try {
     console.log('Sending patient signup:', formData, 'to:', `${API_BASE_URL}/api/patients`);

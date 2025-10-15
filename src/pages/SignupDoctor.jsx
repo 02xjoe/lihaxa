@@ -4,7 +4,56 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = {
+    fullName,
+    email,
+    phone,
+    university,
+    specialization,
+    yearsOfExperience: experience,
+    isDoctor: licensed,
+  };
 
+  // Use VITE_ prefix for Vite
+  const API_BASE_URL = process.env.VITE_API_URL || 'http://localhost:5000'; // Backend local port
+
+  try {
+    console.log('Sending doctor signup:', formData, 'to:', `${API_BASE_URL}/api/doctors`);
+    const res = await fetch(`${API_BASE_URL}/api/doctors`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+    console.log('Signup response:', data, 'Status:', res.status);
+
+    if (res.ok && data.success !== false) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Application submitted successfully!',
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Error submitting form. Please try again.',
+      });
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Network Error',
+      text: 'Please check your connection and try again.',
+    });
+  }
+};
+
+/*
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -29,7 +78,7 @@ const handleSubmit = async (e) => {
     const data = await res.json(); // read backend response
 
     if (res.ok && data.success !== false) {
-      alert('✅ Application submitted successfully!');
+      alert(' Application submitted successfully!');
       // Optional: reset form
       // setFormData({ fullName: "", email: "", phone: "", university: "", specialization: "", experience: "", licensed: false });
     } else {
@@ -41,7 +90,7 @@ const handleSubmit = async (e) => {
     console.error('Network error:', error);
   }
 };
-
+*/
 
 
 // =========================================end========================================

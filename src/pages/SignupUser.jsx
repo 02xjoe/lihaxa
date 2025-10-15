@@ -13,7 +13,7 @@ const handleSubmit = async (e) => {
   const formData = {fullName, email, ageBracket, healthcareProblem };
 
   
-  const res = await fetch('https://lihaxa-backend.onrender.com/api/patients', {
+  const res = await fetch("https://lihaxa-backend.onrender.com/api/patients", {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData)

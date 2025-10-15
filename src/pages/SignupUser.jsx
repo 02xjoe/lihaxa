@@ -1,7 +1,7 @@
 // ===============================
 // 📄 SignupUser.jsx
 // ===============================
-
+/*
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -21,7 +21,56 @@ const handleSubmit = async (e) => {
   const data = await res.json();
   if (data.success) alert(' You\'re on the waitlist! We’ll notify you once we’re live.');
   else alert('Error submitting form. Please try again.');
+
 };
+*/
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useState } from "react";
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = { fullName, email, ageBracket, healthcareProblem };
+
+  // Use environment variable for API URL
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'; // Fallback for local dev
+
+  try {
+    console.log('Sending patient signup:', formData, 'to:', `${API_BASE_URL}/api/patients`);
+    const res = await fetch(`${API_BASE_URL}/api/patients`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+    console.log('Signup response:', data, 'Status:', res.status);
+
+    if (res.ok && data.success !== false) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: "You're on the waitlist! We’ll notify you once we’re live.",
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Error submitting form. Please try again.',
+      });
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Network Error',
+      text: 'Please check your connection and try again.',
+    });
+  }
+};
+
+
 // =========================================end========================================
 
 const SignupUser = () => {

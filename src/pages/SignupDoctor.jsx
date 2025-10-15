@@ -3,11 +3,21 @@ import { GalleryThumbnailsIcon } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-// ========================================= react form linked to backend =========================================
+
+
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const formData = { fullName, email, phone, university, specialization, experience, licensed };
+  // Make sure the field names match the backend (waitlist.js)
+  const formData = {
+    fullName,
+    email,
+    phone,
+    university,
+    specialization,
+    yearsOfExperience: experience, // backend expects this key
+    isDoctor: licensed,            // backend expects this key
+  };
 
   try {
     const res = await fetch('https://lihaxa-backend.onrender.com/api/doctors', {
@@ -16,17 +26,22 @@ const handleSubmit = async (e) => {
       body: JSON.stringify(formData),
     });
 
-    const data = await res.json();
+    const data = await res.json(); // read backend response
 
-    if (res.ok) {
+    if (res.ok && data.success !== false) {
       alert('✅ Application submitted successfully!');
+      // Optional: reset form
+      // setFormData({ fullName: "", email: "", phone: "", university: "", specialization: "", experience: "", licensed: false });
     } else {
       alert(data.message || 'Error submitting form. Please try again.');
     }
+
   } catch (error) {
     alert('Network error. Please check your connection.');
+    console.error('Network error:', error);
   }
 };
+
 
 
 // =========================================end========================================
@@ -34,7 +49,7 @@ const handleSubmit = async (e) => {
 
 const SignupDoctor = () => {
   // =========================================
-  // 🩺 FORM STATE MANAGEMENT
+  //  FORM STATE MANAGEMENT
   // =========================================
   const [formData, setFormData] = useState({
     fullName: "",

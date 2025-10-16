@@ -4,60 +4,13 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = {
-    fullName,
-    email,
-    phone,
-    university,
-    specialization,
-    yearsOfExperience: experience,
-    isDoctor: licensed,
-  };
 
-  // Use VITE_ prefix for Vite
-  const API_BASE_URL = process.env.VITE_API_URL || 'http://localhost:5000'; // Backend local port
 
-  try {
-    console.log('Sending doctor signup:', formData, 'to:', `${API_BASE_URL}/api/doctors`);
-    const res = await fetch(`${API_BASE_URL}/api/doctors`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
 
-    const data = await res.json();
-    console.log('Signup response:', data, 'Status:', res.status);
-
-    if (res.ok && data.success !== false) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Application submitted successfully!',
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: data.message || 'Error submitting form. Please try again.',
-      });
-    }
-  } catch (error) {
-    console.error('Signup error:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Network Error',
-      text: 'Please check your connection and try again.',
-    });
-  }
-};
-
-/*
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  // Make sure the field names match the backend (waitlist.js)
+  // Map front-end names to the backend schema keys
   const formData = {
     fullName,
     email,
@@ -69,28 +22,42 @@ const handleSubmit = async (e) => {
   };
 
   try {
-    const res = await fetch("https://lihaxa-backend.onrender.com/api/doctors", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/doctors", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    const data = await res.json(); // read backend response
+    const data = await res.json();
 
     if (res.ok && data.success !== false) {
-      alert(' Application submitted successfully!');
-      // Optional: reset form
-      // setFormData({ fullName: "", email: "", phone: "", university: "", specialization: "", experience: "", licensed: false });
-    } else {
-      alert(data.message || 'Error submitting form. Please try again.');
-    }
+      // keep your existing Swal.fire success behavior — example:
+      Swal.fire({
+        icon: "success",
+        title: "Application submitted!",
+        text: "You’ve successfully joined the doctor waitlist.",
+      });
 
+      // optional: reset your local state fields here if you want
+      // setFullName(""); setEmail(""); setPhone(""); setUniversity(""); setSpecialization(""); setExperience(""); setLicensed(false);
+
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Submission failed",
+        text: data.message || "Error submitting form. Please try again.",
+      });
+    }
   } catch (error) {
-    alert('Network error. Please check your connection.');
-    console.error('Network error:', error);
+    console.error("Network error:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Network error",
+      text: "Please check your connection and try again.",
+    });
   }
 };
-*/
+
 
 
 // =========================================end========================================

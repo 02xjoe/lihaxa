@@ -1,74 +1,65 @@
 // ===============================
 // 📄 SignupUser.jsx
 // ===============================
-/*
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { useState } from "react";
 // ========================================= react form linked to backend =========================================
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = {fullName, email, ageBracket, healthcareProblem };
 
-  
-  const res = await fetch("https://lihaxa-backend.onrender.com/api/patients", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
-  });
-  const data = await res.json();
-  if (data.success) alert(' You\'re on the waitlist! We’ll notify you once we’re live.');
-  else alert('Error submitting form. Please try again.');
-
-};
-*/
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import { useState } from "react";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const formData = { fullName, email, ageBracket, healthcareProblem };
 
-  // Use VITE_ prefix for Vite
-  const API_BASE_URL = process.env.VITE_API_URL || 'http://localhost:5000'; // Backend local port
+  const formData = {
+    fullName,
+    email,
+    ageBracket,
+    healthcareProblem,
+  };
 
   try {
-    console.log('Sending patient signup:', formData, 'to:', `${API_BASE_URL}/api/patients`);
-    const res = await fetch(`${API_BASE_URL}/api/patients`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
+    const res = await fetch("/api/patients", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     });
 
     const data = await res.json();
-    console.log('Signup response:', data, 'Status:', res.status);
 
     if (res.ok && data.success !== false) {
       Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: "You're on the waitlist! We’ll notify you once we’re live.",
+        icon: "success",
+        title: "You're on the waitlist!",
+        text: "We’ll notify you once we’re live.",
       });
+
+      // optional: reset fields
+      // setFullName(""); setEmail(""); setAgeBracket(""); setHealthcareProblem("");
     } else {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: data.message || 'Error submitting form. Please try again.',
+        icon: "error",
+        title: "Submission failed",
+        text: data.message || "Error submitting form. Please try again.",
       });
     }
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error("Network error:", error);
     Swal.fire({
-      icon: 'error',
-      title: 'Network Error',
-      text: 'Please check your connection and try again.',
+      icon: "error",
+      title: "Network error",
+      text: "Please check your connection and try again.",
     });
   }
 };
+
+
+
+
+
+
 
 
 // =========================================end========================================

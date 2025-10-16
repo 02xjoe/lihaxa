@@ -22,7 +22,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-    const res = await fetch("https://lihaxa-backend.onrender.com/api/doctors", {
+    const res = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/patient-signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

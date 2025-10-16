@@ -12,6 +12,40 @@ import { useState } from "react";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  const formData = { fullName, email, ageBracket, healthcareProblem };
+
+  try {
+    const res = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/patient-signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: "You're on the waitlist! We’ll notify you once we’re live.",
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Error submitting form. Please try again.',
+      });
+    }
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Failed to connect to the server. Please try again.',
+    });
+  }
+};
+
+/*
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
   const formData = {
     fullName,
@@ -54,7 +88,7 @@ const handleSubmit = async (e) => {
     });
   }
 };
-
+*/
 
 
 

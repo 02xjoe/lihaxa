@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { useState } from "react";
-// ========================================= react form linked to backend =========================================
+// ========================================= react form linked to backend ========================================
 
 const API_URL = import.meta.env.VITE_API_URL || "https://lihaxa-backend.onrender.com"; 
 

@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 
 
 
+const API_URL = import.meta.env.VITE_API_URL || "https://lihaxa-backend.onrender.com";
+
 
 
 const handleSubmit = async (e) => {

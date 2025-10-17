@@ -1,64 +1,22 @@
 // ===============================
 // 📄 SignupUser.jsx
 // ===============================
+// This component renders the Patient Signup form.
+// It collects patient details and submits them to the backend API route `/api/patients`
+// which is automatically redirected to your backend hosted on Render
+// via Netlify's redirect configuration.
 
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import './SignupUser.jsx'
-
 import { useState } from "react";
-// ========================================= react form linked to backend ===================================
 
-
-
-
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = { fullName, email, ageBracket, healthcareProblem };
-
-  
-  try {
-    const res = await fetch("/api/patients", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    if (data.success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: "You're on the waitlist! We’ll notify you once we’re live.",
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: data.message || 'Error submitting form. Please try again.',
-      });
-    }
-  } catch (err) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Failed to connect to the server. Please try again.',
-    });
-  }
-};
-
-
-
-
-
-// =========================================end========================================
-
+// ===============================
+// 🧠 COMPONENT: SignupUser
+// ===============================
 const SignupUser = () => {
-  // =========================================
-  // 🔧 FORM STATE MANAGEMENT
-  // =========================================
+  // --------------------------------------------
+  // 🔧 State management for all form fields
+  // --------------------------------------------
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -66,23 +24,72 @@ const SignupUser = () => {
     healthcareProblem: "",
   });
 
+  // --------------------------------------------
+  // 🖊️ Handle input field changes
+  // --------------------------------------------
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  // --------------------------------------------
+  // 🚀 Handle form submission
+  // --------------------------------------------
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      console.log("Submitting form to /api/patients", formData);
+
+      const res = await fetch("/api/patients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      // ✅ Success case
+      if (res.ok && data.success !== false) {
+        Swal.fire({
+          icon: "success",
+          title: "🎉 You're on the waitlist!",
+          text: "We’ll notify you via email once we’re live.",
+          confirmButtonText: "Awesome!",
+          confirmButtonColor: "#2563EB", // Tailwind blue-600
+        });
+
+        // Reset form after success
+        setFormData({
+          fullName: "",
+          email: "",
+          ageBracket: "",
+          healthcareProblem: "",
+        });
+      } else {
+        // ❌ Backend returned an error
+        Swal.fire({
+          icon: "error",
+          title: "Submission failed",
+          text: data.message || "Something went wrong. Please try again.",
+          confirmButtonColor: "#dc2626",
+        });
+      }
+    } catch (error) {
+      // ❌ Network or server connection issue
+      console.error("Error submitting form:", error);
       Swal.fire({
-    title: "😊 You're on the waitlist!",
-    text: "We’ll notify you via email once we’re live.",
-    icon: "success",
-    confirmButtonText: "Awesome!",
-    confirmButtonColor: "#2563EB" // Tailwind blue-600
-  });
-  //  alert("🎉 You're on the waitlist! We’ll notify you via email once we’re live.");
+        icon: "error",
+        title: "Network error",
+        text: "Unable to connect to the server. Please check your connection and try again.",
+        confirmButtonColor: "#dc2626",
+      });
+    }
   };
 
+  // ===============================
+  // 🎨 RENDER COMPONENT
+  // ===============================
   return (
     <main className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0F172A] via-[#001E3C] to-[#0080FF] text-white px-6 pt-28 pb-16 font-sans">
       {/* =============================== 🌟 HEADER =============================== */}
@@ -92,15 +99,13 @@ const SignupUser = () => {
         transition={{ duration: 0.7 }}
         className="text-center mb-10"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-3">
-          Join as Patient
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-3">Join as Patient</h1>
         <p className="text-gray-300 max-w-md mx-auto text-lg">
           Get on the waitlist for instant medical consultations.
         </p>
       </motion.div>
 
-      {/* ====== SIGNUP CARD ========= */}
+      {/* =============================== 🧾 FORM =============================== */}
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, scale: 0.95 }}
@@ -155,14 +160,24 @@ const SignupUser = () => {
             required
             className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#0080FF]"
           >
-            <option  value="" disabled>
+            <option value="" disabled>
               Select your age range
             </option>
-            <option className="bg-white/5 text-black" value="18-25">18 - 25</option>
-            <option className="bg-white/5 text-black" value="26-35">26 - 35</option>
-            <option className="bg-white/5 text-black" value="36-45">36 - 45</option>
-            <option className="bg-white/5 text-black" value="46-60">46 - 60</option>
-            <option className="bg-white/5 text-black" value="60+">60+</option>
+            <option className="bg-white/5 text-black" value="18-25">
+              18 - 25
+            </option>
+            <option className="bg-white/5 text-black" value="26-35">
+              26 - 35
+            </option>
+            <option className="bg-white/5 text-black" value="36-45">
+              36 - 45
+            </option>
+            <option className="bg-white/5 text-black" value="46-60">
+              46 - 60
+            </option>
+            <option className="bg-white/5 text-black" value="60+">
+              60+
+            </option>
           </select>
         </div>
 
@@ -187,7 +202,7 @@ const SignupUser = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full  bg-[#28BD66] hover:bg-[#2ECC71] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
+          className="w-full bg-[#28BD66] hover:bg-[#2ECC71] text-white font-semibold py-3 rounded-xl shadow-lg transition duration-300"
         >
           Join Waitlist
         </motion.button>

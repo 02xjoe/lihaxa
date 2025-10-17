@@ -1,73 +1,11 @@
 import { motion } from "framer-motion";
-import { GalleryThumbnailsIcon } from "lucide-react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-
-
-
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  // Map front-end names to the backend schema keys
-  const formData = {
-    fullName,
-    email,
-    phone,
-    university,
-    specialization,
-    yearsOfExperience: experience, // backend expects this key
-    isDoctor: licensed,            // backend expects this key
-  };
-
-  try {
-    const res = await fetch("/api/doctors", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.success !== false) {
-      // keep your existing Swal.fire success behavior — example:
-      Swal.fire({
-        icon: "success",
-        title: "Application submitted!",
-        text: "You’ve successfully joined the doctor waitlist.",
-      });
-
-      // optional: reset your local state fields here if you want
-      // setFullName(""); setEmail(""); setPhone(""); setUniversity(""); setSpecialization(""); setExperience(""); setLicensed(false);
-
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Submission failed",
-        text: data.message || "Error submitting form. Please try again.",
-      });
-    }
-  } catch (error) {
-    console.error("Network error:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Network error",
-      text: "Please check your connection and try again.",
-    });
-  }
-};
-
-
-
-// =========================================end========================================
-
-
 const SignupDoctor = () => {
-  // =========================================
-  //  FORM STATE MANAGEMENT
-  // =========================================
+  // ===============================
+  // FORM STATE MANAGEMENT
+  // ===============================
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -78,6 +16,7 @@ const SignupDoctor = () => {
     licensed: false,
   });
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -86,32 +25,85 @@ const SignupDoctor = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // ===============================
+  // FORM SUBMIT HANDLER
+  // ===============================
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate license checkbox
     if (!formData.licensed) {
-       Swal.fire({
-           title: "❌ Application not submitted!",
-           text: "Confirm that you are a licensed medical practitioner.",
-           icon: "error",
-           confirmButtonText: "Close",
-           confirmButtonColor: "#da0c0cff"
-         });
-   //   alert("⚠️ Please confirm that you are a licensed medical practitioner.");
+      Swal.fire({
+        icon: "error",
+        title: "❌ Application not submitted!",
+        text: "Confirm that you are a licensed medical practitioner.",
+        confirmButtonColor: "#dc2626",
+      });
       return;
     }
-       Swal.fire({
-           title: "😊 Your application is successful!",
-           text: "We’ll notify you via email once we’re live.",
-           icon: "success",
-           confirmButtonText: "Awesome!",
-           confirmButtonColor: "#2563EB" // Tailwind blue-600
-         });
-   // alert("✅ Application submitted successfully! Verification in progress.");
+
+    try {
+      console.log("Submitting form to /api/doctors", formData);
+
+      const res = await fetch("/api/doctors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          university: formData.university,
+          specialization: formData.specialization,
+          yearsOfExperience: formData.experience,
+          isDoctor: formData.licensed,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success !== false) {
+        Swal.fire({
+          icon: "success",
+          title: "Application submitted!",
+          text: "You’ve successfully joined the doctor waitlist.",
+          confirmButtonColor: "#2563EB",
+        });
+
+        // Reset form
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          university: "",
+          specialization: "",
+          experience: "",
+          licensed: false,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Submission failed",
+          text: data.message || "Error submitting form. Please try again.",
+          confirmButtonColor: "#dc2626",
+        });
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Network error",
+        text: "Please check your connection and try again.",
+        confirmButtonColor: "#dc2626",
+      });
+    }
   };
 
+  // ===============================
+  // JSX RENDER
+  // ===============================
   return (
     <main className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-[#0F172A] via-[#001E3C] to-[#0080FF] text-white px-6 pt-28 pb-16 font-sans">
-      {/* ===============================  HEADER =============================== */}
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -124,7 +116,7 @@ const SignupDoctor = () => {
         </p>
       </motion.div>
 
-      {/* ===============================  SIGNUP CARD =============================== */}
+      {/* Form */}
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, scale: 0.95 }}
@@ -164,7 +156,7 @@ const SignupDoctor = () => {
           />
         </div>
 
-        {/* Phone Number */}
+        {/* Phone */}
         <div>
           <label className="block text-sm font-semibold mb-2">
             Phone Number <span className="text-red-400">*</span>
@@ -180,7 +172,7 @@ const SignupDoctor = () => {
           />
         </div>
 
-        {/* University of Study */}
+        {/* University */}
         <div>
           <label className="block text-sm font-semibold mb-2">
             University of Study <span className="text-red-400">*</span>
@@ -239,12 +231,12 @@ const SignupDoctor = () => {
             className="mt-1 h-5 w-5 accent-[#0080FF] rounded-md cursor-pointer"
           />
           <label className="text-sm text-gray-300">
-            I am a licensed medical practitioner and I agree to provide
-            accurate information for verification purposes.
+            I am a licensed medical practitioner and agree to provide accurate
+            information for verification.
           </label>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -255,7 +247,6 @@ const SignupDoctor = () => {
         </motion.button>
       </motion.form>
 
-      {/* ============== FOOTER SPACING ========= */}
       <div className="mt-16"></div>
     </main>
   );

@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 
 
 
-const API_URL = import.meta.env.VITE_API_URL || "https://lihaxa-backend.onrender.com";
 
 
 
@@ -24,7 +23,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-    const res = await fetch("https://lihaxa-backend.onrender.com/api/doctors", {
+    const res = await fetch("/api/doctors", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

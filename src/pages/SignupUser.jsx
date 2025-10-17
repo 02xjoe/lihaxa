@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { useState } from "react";
-// ========================================= react form linked to backend ========================================
+// ========================================= react form linked to backend ===================================
 
-const API_URL = import.meta.env.VITE_API_URL || "https://lihaxa-backend.onrender.com"; 
+
 
 
 
@@ -19,7 +19,7 @@ const handleSubmit = async (e) => {
   const formData = { fullName, email, ageBracket, healthcareProblem };
 
   try {
-    const res = await  fetch("https://lihaxa-backend.onrender.com/api/doctors", {
+    const res = await  fetch("/api/patients", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

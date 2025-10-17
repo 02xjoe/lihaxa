@@ -23,7 +23,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-    console.log("Calling:", `${import.meta.env.VITE_API_URL}/api/patients`);
+    console.log("Calling:", `${import.meta.env.VITE_API_URL}/api/doctors`);
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/doctors`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

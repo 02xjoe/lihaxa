@@ -19,6 +19,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   const formData = { fullName, email, ageBracket, healthcareProblem };
 
+  
   try {
     console.log("Calling:", `${import.meta.env.VITE_API_URL}/api/patients`);
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/patients`, {

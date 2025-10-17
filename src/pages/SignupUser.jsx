@@ -5,6 +5,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import './SignupUser.jsx'
 
 import { useState } from "react";
 // ========================================= react form linked to backend ===================================
@@ -19,7 +20,7 @@ const handleSubmit = async (e) => {
   const formData = { fullName, email, ageBracket, healthcareProblem };
 
   try {
-    const res = await  fetch("/api/patients", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/patients`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -46,55 +47,6 @@ const handleSubmit = async (e) => {
     });
   }
 };
-
-/*
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const formData = {
-    fullName,
-    email,
-    ageBracket,
-    healthcareProblem,
-  };
-
-  try {
-    const res = await fetch("https://lihaxa-backend.onrender.com/api/patients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.success !== false) {
-      Swal.fire({
-        icon: "success",
-        title: "You're on the waitlist!",
-        text: "We’ll notify you once we’re live.",
-      });
-
-      // optional: reset fields
-      // setFullName(""); setEmail(""); setAgeBracket(""); setHealthcareProblem("");
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Submission failed",
-        text: data.message || "Error submitting form. Please try again.",
-      });
-    }
-  } catch (error) {
-    console.error("Network error:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Network error",
-      text: "Please check your connection and try again.",
-    });
-  }
-};
-*/
-
-
 
 
 

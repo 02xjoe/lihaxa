@@ -1,6 +1,10 @@
 [build]
-  environment = { VITE_API_URL = "https://lihaxa-backend.onrender.com" }
+  command = "npm run build"
+  publish = "dist"
+  environment = { NODE_VERSION = "20" }
+
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/api/*"
+  to = "https://lihaxa-backend.onrender.com/api/:splat"
   status = 200
+  force = true

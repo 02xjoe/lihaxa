@@ -3,6 +3,14 @@
   publish = "dist"
   environment = { NODE_VERSION = "20" }
 
+#  Redirect all /api requests to your backend on Render
+[[redirects]]
+  from = "/api/*"
+  to = "https://lihaxa-backend.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+#  Allow React Router to handle all other routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
